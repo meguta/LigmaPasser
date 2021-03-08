@@ -1,30 +1,18 @@
-let changeColor = document.getElementById('changeColor');
-// chrome.storage.sync.get('color', function(data) {
-//   changeColor.style.backgroundColor = data.color;
-//   changeColor.setAttribute('value', data.color);
-// });
-// changeColor.onclick = function(element) {
-//     let color = element.target.value;
-//     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-//       chrome.tabs.executeScript(
-//           tabs[0].id,
-//           {code: 'document.body.style.backgroundColor = "' + color + '";'});
-//     });
-// };
-
-window.onload = function(){
-    document.getElementById("generate").onclick = generatePassword();
-}
-
-const code = `()`
-
 document.addEventListener('DOMContentLoaded', function(){
-    var button = document.getElementById("generate");
-    button.addEventListener('click', function(){
-        generatePassword();
-    })
-})
+    document.querySelector('#generate').addEventListener('click', generatePassword); 
+});
+
 function generatePassword() {
-    document.getElementById("pass").value = "potato";
-    console.log("changed...");
+    console.log("...changed...");
+    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+        var port = chrome.tabs.connect(tabs[0].id);
+        port.postMessage({status: "fillPass"});
+        port.onMessage.addListener(function(msg){
+            console.log("Kinda working");
+            if (msg.injectStatus == "Good") {
+                console.log("Working")
+            }
+        });
+    });
+    
 }
