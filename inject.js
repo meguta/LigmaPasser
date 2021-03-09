@@ -1,5 +1,5 @@
 var myUsername = "butt";
-var myPassword = "crack";
+var myPassword = "testmeoutdaddoutyearh";
 
 console.log("injected");
 
@@ -12,7 +12,7 @@ chrome.runtime.onConnect.addListener( function(port) {
             var fields = getLoginFields()[0]
             console.log(fields);
             fields[0].value = myUsername;
-            fields[1].value = myPassword;
+            fields[1].value = msg.pass;
 
             port.postMessage({injectStatus: "Good"});
         }
